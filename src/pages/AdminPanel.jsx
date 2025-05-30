@@ -11,12 +11,14 @@ import {
   Settings,
   User2,
   X,
+  Settings2Icon,
 } from "lucide-react";
 import { TabsList, TabsTrigger } from "../components/ui/Tabs";
 import Dashboard from "../components/admin/dashboard/Dashboard";
 import Projects from "../components/admin/project/Projects";
 import Skills from "../components/admin/skills/Skills";
 import AboutEditor from "../components/admin/about/AboutEditor";
+import Certificates from "../components/admin/certificates/Certificates";
 import ContactEditor from "../components/admin/contact/ContactEditor";
 import Profile from "../components/admin/profile/Profile";
 import ContactMessages from "../components/admin/messages/ContactMessages";
@@ -82,6 +84,7 @@ const AdminPanel = ({ onLogout }) => {
             },
             { value: "projects", icon: <FolderKanban size={18} />, label: "Projects" },
             { value: "skills", icon: <Settings2 size={18} />, label: "Skills" },
+             { value: "certificates", icon: <Settings2Icon size={18} />, label: "Certificates" },
             { value: "about", icon: <User size={18} />, label: "About" },
             { value: "contact", icon: <Mail size={18} />, label: "Contact" },
             { value: "message", icon: <User2 size={18} />, label: "Message" },
@@ -181,6 +184,7 @@ const AdminPanel = ({ onLogout }) => {
           {tab === "dashboard" && <Dashboard />}
           {tab === "projects" && <Projects />}
           {tab === "skills" && <Skills />}
+           {tab === "certificates" && <Certificates />}
           {tab === "about" && <AboutEditor />}
           {tab === "contact" && <ContactEditor />}
           {tab === "message" && <ContactMessages />}

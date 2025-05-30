@@ -62,6 +62,14 @@ const Header = () => {
             Projects
           </NavLink>
           <NavLink
+            to="/credentials"
+            className={({ isActive }) =>
+              isActive ? "text-blue-600 font-semibold" : "text-gray-800"
+            }
+          >
+            Credentials
+          </NavLink>
+          <NavLink
             to="/contact"
             className={({ isActive }) =>
               isActive ? "text-blue-600 font-semibold" : "text-gray-800"
@@ -111,6 +119,17 @@ const Header = () => {
             }
           >
             Projects
+          </NavLink>
+           <NavLink
+            to="/credentials"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "block text-blue-600 font-semibold"
+                : "block text-gray-800"
+            }
+          >
+            Credentials
           </NavLink>
           <NavLink
             to="/contact"

@@ -7,6 +7,7 @@ import About from "./components/About";
 import Project from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Credentials from "./components/Credentials";
 import AdminPanel from "./pages/AdminPanel";
 import AdminLogin from "./components/login/AdminLogin";
 import { getDashboardStats } from "./components/admin/dashboard/dashboardService";
@@ -71,6 +72,7 @@ function UserLayout() {
           <Route path="/" element={<Hero />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Project />} />
+          <Route path="/credentials" element={<Credentials />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
 

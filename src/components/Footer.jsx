@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex space-x-4">
         <a href="https://github.com/chandrakantteotia" target="_blank" rel="noopener noreferrer" className="hover:text-[#38bdf8] transition-colors">GitHub</a>
         <a href="https://linkedin.com/in/chandrakant-teotia" target="_blank" rel="noopener noreferrer" className="hover:text-[#38bdf8] transition-colors">LinkedIn</a>
-        <a href="mailto:you@example.com" className="hover:text-[#38bdf8] transition-colors">Email</a>
+        <a href="mailto:chandrakantteotia@gmail.com" className="hover:text-[#38bdf8] transition-colors">Email</a>
       </div>
     </footer>
   );
