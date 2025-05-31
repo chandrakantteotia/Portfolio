@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { db } from "../../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const defaultContact = {
   email: "",
@@ -9,6 +9,8 @@ const defaultContact = {
   location: "",
   linkedin: "",
   github: "",
+  lat: "",
+  lon: "",
 };
 
 const ContactEditor = () => {
@@ -19,15 +21,29 @@ const ContactEditor = () => {
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // ✅ Fetch from Firestore on page load
   useEffect(() => {
-    const stored = localStorage.getItem("contactInfo");
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setContact(parsed);
-      if (parsed.lat && parsed.lon) {
-        setCoords({ lat: parsed.lat, lon: parsed.lon });
+    const fetchContactInfo = async () => {
+      try {
+        const docRef = doc(db, "contacts", "main");
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContact(data);
+          if (data.lat && data.lon) {
+            setCoords({ lat: data.lat, lon: data.lon });
+          }
+        } else {
+          console.log("No contact data found.");
+        }
+      } catch (error) {
+        console.error("Error fetching contact info:", error);
+        toast.error("Failed to load contact info from Firebase");
       }
-    }
+    };
+
+    fetchContactInfo();
   }, []);
 
   const handleChange = (e) => {
@@ -71,10 +87,9 @@ const ContactEditor = () => {
     setSaving(true);
     try {
       await setDoc(doc(db, "contacts", "main"), contact);
-      localStorage.setItem("contactInfo", JSON.stringify(contact));
       setSaving(false);
       setIsEditing(false);
-      toast.success("Contact info saved successfully!");
+      toast.success("Contact info saved to Firebase!");
     } catch (error) {
       console.error("Error saving to Firebase:", error);
       toast.error("Failed to save contact info");
@@ -85,11 +100,7 @@ const ContactEditor = () => {
   const toggleEdit = () => {
     setIsEditing((prev) => {
       const newState = !prev;
-      if (newState) {
-        toast("Editing enabled");
-      } else {
-        toast.success("Contact info editing completed");
-      }
+      toast(newState ? "Editing enabled" : "Editing disabled");
       return newState;
     });
   };
@@ -217,21 +228,11 @@ const ContactEditor = () => {
 
         <h3 className="text-xl font-semibold mb-3">Live Preview</h3>
         <div className="p-4 border rounded shadow space-y-2">
-          <p className="break-words">
-            <strong>Email:</strong> {contact.email || "—"}
-          </p>
-          <p className="break-words">
-            <strong>Phone:</strong> {contact.phone || "—"}
-          </p>
-          <p className="break-words">
-            <strong>Location:</strong> {contact.location || "—"}
-          </p>
-          <p className="break-words">
-            <strong>LinkedIn:</strong> {contact.linkedin || "—"}
-          </p>
-          <p className="break-words">
-            <strong>GitHub:</strong> {contact.github || "—"}
-          </p>
+          <p className="break-words"><strong>Email:</strong> {contact.email || "—"}</p>
+          <p className="break-words"><strong>Phone:</strong> {contact.phone || "—"}</p>
+          <p className="break-words"><strong>Location:</strong> {contact.location || "—"}</p>
+          <p className="break-words"><strong>LinkedIn:</strong> {contact.linkedin || "—"}</p>
+          <p className="break-words"><strong>GitHub:</strong> {contact.github || "—"}</p>
         </div>
 
         {coords && (
